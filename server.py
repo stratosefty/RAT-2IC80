@@ -9,6 +9,8 @@ clientsocket, address = s.accept()
 print(f"Connection from {address} has been established.")
 
 # Server sends message and waits for reply
+
+# To ensure that the person knows what to use there could be a help option
 while True:
 
     msgToSend = input("Enter your message: ")
