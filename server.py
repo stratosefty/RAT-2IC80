@@ -42,10 +42,11 @@ getaccess               - Starts an attempt to create an interactive shell
                           user's name from hashdump, type "exit" to leave the shell)
 DeleteFiles-Desktop     - Prints the contents of the victim's desktop and 
                           ask for the name of the file to be deleted.
-                          It then deletes this file.
+                          It then deletes this file. Type "cancel" to abort
 SendFiles-Desktop       - Prints the contents of the victim's desktop and 
                           ask for the name of the file to be sent over 
-                          to your computer (currently works with .txt files)
+                          to your computer (currently works with .txt files).
+                          Type "cancel" to abort
 maytheforcebewithyou    - ඞ
 
 terminate               - Close the connection and the program
