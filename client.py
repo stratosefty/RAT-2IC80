@@ -20,7 +20,7 @@ s.connect(("10.0.26.244", 1234))
 
 
 while (True):
-    msg = s.recv(1024)
+    msg = s.recv(2048)
     decodedMsg = msg.decode("utf-8")
     print(decodedMsg)
     
