@@ -39,21 +39,25 @@ while True:
     #################################################################
     elif msgToSend == "SendFiles-Desktop":
         clientsocket.send(bytes(msgToSend, "utf-8"))
+        msg = clientsocket.recv(2048)
         decodedMsg = msg.decode("utf-8")
         print(decodedMsg)
         msgToSend = input("Enter your message: ")
         if msgToSend == 'cancel':
             clientsocket.send(bytes(msgToSend, "utf-8"))
         else:
-            dir = "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Desktop"
-            f = open(dir + msgToSend, 'wb')
+            dir = "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Desktop" + "\\"
+            f = open(dir + msgToSend, 'wt')
             clientsocket.send(bytes(msgToSend, "utf-8"))
             msg = clientsocket.recv(2048)
             decodedMsg = msg.decode("utf-8")
             while decodedMsg != "done sending":
+                print(decodedMsg)
                 f.write(decodedMsg)
                 msg = clientsocket.recv(2048)
                 decodedMsg = msg.decode("utf-8")
+            print(decodedMsg)
+            f.close()
     else:
         clientsocket.send(bytes(msgToSend,"utf-8"))
         #this does not work currently since it gets an error

