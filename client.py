@@ -86,6 +86,12 @@ while (True):
         else:
             file = command+ decodedMsg
             f = open("file", "rb")
+            message = f.read(1024)
+            while message:
+                s.sendall(bytes(message, "utf-8"))
+                message = f.read(1024)
+            s.sendall(bytes("done sending","utf-8"))
+            f.close()
 
             #https: // stackoverflow.com / questions / 27241804 / sending - a - file - over - tcp - sockets - in -python
             #rb needed for sending binary file
