@@ -67,6 +67,7 @@ while True:
 
     # Creates a new terminal that is connected to the victim machine
     # If the correct account is chosen, this terminal will have admin privileges (privilege escalation)
+    # All the possible commands can be listed by typing the help command
     if msgToSend == "help":
         print(help)
     elif msgToSend == "getaccess":
