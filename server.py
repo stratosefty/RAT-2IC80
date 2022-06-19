@@ -33,7 +33,7 @@ Available commands: ↓
 ====================================================================
 s                       - Shutdown the victim's computer and closes RATata
 openCalc                - Open calculator
-test                    - Prints the contents of victim's desktop
+showdesktop             - Prints the contents of victim's desktop
 retrieveh               - Executes HiveNightmare.exe and extracts the 
                           SAM, SECURITY and SYSTEM hives as files on the victims pc
 hashdump                - Dumps the hashes and prints them
